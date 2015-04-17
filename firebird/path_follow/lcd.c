@@ -10,15 +10,15 @@
 #define sbit(reg,bit)	reg |= (1<<bit)
 #define cbit(reg,bit)	reg &= ~(1<<bit)
 
-void init_ports();
-void lcd_reset_4bit();
-void lcd_init();
-void lcd_wr_command(unsigned char);
-void lcd_wr_char(char);
-void lcd_home();
-void lcd_cursor(char, char);
-void lcd_print(char, char, unsigned int, int);
-void lcd_string(char*);
+void lcd_port_config(); // Init PORTC and DDRC values 
+void lcd_set_4bit(); // Clear and set LCD to 4bit mode
+void lcd_init(); // Complete init function
+void lcd_wr_command(unsigned char); // Execute command on LCD
+void lcd_wr_char(char); // Write char on LCD
+void lcd_home(); // Clear LCD and reset cursor position
+void lcd_cursor(char, char); // Set cursor position to row, column
+void lcd_print(char, char, unsigned int, int); // Print specified digits of integer on LCD  
+void lcd_string(char*); // Print entire string on LCD
 
 unsigned int temp;
 unsigned int unit;
@@ -26,8 +26,6 @@ unsigned int tens;
 unsigned int hundred;
 unsigned int thousand;
 unsigned int million;
-
-int i;
 
 //Function to configure LCD port
 void lcd_port_config (void)

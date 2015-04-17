@@ -1,3 +1,4 @@
+// Stores milliseconds passed since programs start
 unsigned long exec_time=0;
 
 void timer_init(){

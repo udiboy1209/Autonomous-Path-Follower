@@ -1,3 +1,4 @@
+// Constant definitions for wheel direction control
 #define FORWARD 0x06
 #define BACK 0x09
 #define STOP 0x00
@@ -136,12 +137,47 @@ ISR(INT4_vect)
 }
 
 
-const double rotation_resolution=4.090*5.44/5.338/2; //default 4.090 given
-//Function used for turning robot by specified degrees
+// rotation_resolution = distance moved by wheel on 1 degree HARD turn
+const double rotation_resolution=4.090*5.44/5.338; //default 4.090 given
+
+
+// Function used for turning robot by specified degrees
+// Robot will do a SOFT turn (one wheel moving forward, one wheel stopped)
+// based on direction ( CLOCKWISE->RIGHT | ANTICLOCKWISE->LEFT )
 double angle_soft(double Degrees, int direction)
 {
 	if(direction==CLOCKWISE) motion_set(SOFT_RIGHT);
 	else motion_set(SOFT_LEFT);
+	
+	double ReqdShaftCount = 0;
+	unsigned long int ReqdShaftCountInt = 0;
+
+    // division by resolution to get shaft count
+    // rotation_resolution halved because in SOFT turn 
+    // distance moved will be 1/2 of HARD turn
+	ReqdShaftCount = Degrees/(rotation_resolution/2); 
+    ReqdShaftCountInt = (unsigned int) ReqdShaftCount;
+	ShaftCountRight = 0;
+	ShaftCountLeft = 0;
+	
+	while (1)
+	{
+		if((ShaftCountRight >= ReqdShaftCountInt && direction == ANTICLOCKWISE) |
+                (ShaftCountLeft >= ReqdShaftCountInt && direction == CLOCKWISE))
+            break;
+	}
+	motion_set(STOP); //Stop robot
+	
+    // Return error in angle turned ( Due to integer truncation inaccuracy )
+	return Degrees-ReqdShaftCountInt*rotation_resolution;
+}
+
+// Robot will do a HARD turn (one wheel moving forward, one wheel moving backward)
+// based on direction ( CLOCKWISE->RIGHT | ANTICLOCKWISE->LEFT )
+double angle_hard(double Degrees, int direction)
+{
+	if(direction==CLOCKWISE) motion_set(RIGHT);
+	else motion_set(LEFT);
 	
 	double ReqdShaftCount = 0;
 	unsigned long int ReqdShaftCountInt = 0;
@@ -153,34 +189,13 @@ double angle_soft(double Degrees, int direction)
 	
 	while (1)
 	{
-		if((ShaftCountRight >= ReqdShaftCountInt && direction == ANTICLOCKWISE) | (ShaftCountLeft >= ReqdShaftCountInt && direction == CLOCKWISE))
-		break;
+		if((ShaftCountRight >= ReqdShaftCountInt && direction == ANTICLOCKWISE) |
+                (ShaftCountLeft >= ReqdShaftCountInt && direction == CLOCKWISE))
+            break;
 	}
 	motion_set(STOP); //Stop robot
 	
-	return Degrees-ReqdShaftCountInt*rotation_resolution;
-}
-
-double angle_hard(double Degrees, int direction)
-{
-	if(direction==CLOCKWISE) motion_set(RIGHT);
-	else motion_set(LEFT);
-	
-	double ReqdShaftCount = 0;
-	unsigned long int ReqdShaftCountInt = 0;
-
-	ReqdShaftCount = Degrees/rotation_resolution/2; // division by resolution to get shaft count
-	ReqdShaftCountInt = (unsigned int) ReqdShaftCount;
-	ShaftCountRight = 0;
-	ShaftCountLeft = 0;
-	
-	while (1)
-	{
-		if((ShaftCountRight >= ReqdShaftCountInt && direction == ANTICLOCKWISE) | (ShaftCountLeft >= ReqdShaftCountInt && direction == CLOCKWISE))
-		break;
-	}
-	motion_set(STOP); //Stop robot
-	
+    // Return error in angle turned ( Due to integer truncation inaccuracy )
 	return Degrees-ReqdShaftCountInt*rotation_resolution;
 }
 
@@ -198,14 +213,16 @@ double forward_mm(double DistanceInMM)
 	ShaftCountRight = 0;
 	while(1)
 	{
-		lcd_print(2,1,sharp_distance(SHARP_N),3);
+        // Print sharp sensor distance value for debug
+		lcd_print(2,1,sharp_distance(SHARP_N),5);
 		
-		if(ShaftCountRight > ReqdShaftCountInt)
+		if(ShaftCountRight > ReqdShaftCountInt) // complete distance covered
 		{
-			return -1;
+			return 0;
 		}
 		
-		if(foundObstacle()){
+		if(foundObstacle()){ // Found obstacle in between. Start avoid sequence
+            // Return the distance currently covered
 			return ShaftCountRight*0.544;
 		}
 	}

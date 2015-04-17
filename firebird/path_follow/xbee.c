@@ -5,6 +5,9 @@
 // parity: Disabled
 
 unsigned char bytes[126], data;
+
+// arc_count stores no. of arcs (packets) recieved
+// byte_count stores no. of bytes recieved in current packet
 unsigned int arc_count=0, byte_count=0;
 
 void uart0_init(void)
@@ -22,9 +25,13 @@ SIGNAL(SIG_USART0_RECV) 		// ISR for receive complete interrupt
 {
 	data = UDR0;
 	
+    // Store data received in empty position
 	bytes[arc_count*9+byte_count]=data;
+    // increment no of bytes recieved
 	byte_count++;
 	
+    // Whole packet received
+    // increment arc_count and reset byte_count
 	if(byte_count==9){
 		arc_count++;
 		byte_count=0;
@@ -34,6 +41,8 @@ SIGNAL(SIG_USART0_RECV) 		// ISR for receive complete interrupt
 		arc_count=0;
 	}
 	
+    // echo back the data to Laptop for debugging
 	UDR0 = data;	
+    // Wait for data to be sent
 	_delay_ms(100);
 }	
