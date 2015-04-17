@@ -99,9 +99,7 @@ public class DisplayPanel extends SurfaceView implements SurfaceHolder.Callback 
 
             //canvas.drawCircle(c.x, c.y, radius, ARC);
 
-            RectF oval = new RectF(c.x-radius, c.y-radius, c.x+radius, c.y+radius);
-
-            canvas.drawArc(oval, startAngle, endAngle-startAngle, true, ARC);
+            canvas.drawCircle(c.x, c.y, radius, ARC);
             canvas.drawCircle(p1.x, p1.y, 2, RED);
             canvas.drawCircle(c.x, c.y, 2, BLACK);
         }
