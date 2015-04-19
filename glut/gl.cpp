@@ -44,19 +44,11 @@ void mouseClick(int button, int state, int x, int y){
     
 
     if(button == GLUT_RIGHT_BUTTON && state==GLUT_DOWN){
-        /*
-         * centres.clear();
-         * path.clear();
-         * arcs.clear();
-         */
-        cout<<"Enter : "<<endl;
-
-        int arcno; double theta, distance;
-        cin>>arcno;
-        cin>>theta;
-        cin>>distance;
-
-        addObstacle(arcno, theta, distance);
+        
+         centres.clear();
+         path.clear();
+         arcs.clear();
+         
     }
     // on pressing the right mouse button , clear the complete canvas
 
@@ -140,7 +132,10 @@ void display(){
 int main(int argc, char** argv){
     glutInit(&argc, argv);
 
-    generate = argv[1][0]-48;
+    if(argc>1)
+        generate = argv[1][0]-48;
+    else 
+        generate = CLICK; // Set as drag by default
     // takes the input 0 or 1 from the user on whether to draw points by 
     // dragging or clicking . The ASCII values of 0 and 1 are converted 
     // to 0 or 1 by subtracting 48 from it. 

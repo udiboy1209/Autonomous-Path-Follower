@@ -1,6 +1,6 @@
 #include "main.hpp"
 
-#define THRESHOLD 5
+#define THRESHOLD 70
 
 //returns the value of square of the distance of the point from
 //the origin ( square of modulus of the vector joining origin and A
