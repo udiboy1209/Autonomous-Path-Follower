@@ -38,5 +38,6 @@ Softwares Used
  * [OpenGL Utility Toolkit](https://www.opengl.org/resources/libraries/glut/)
  * [AVR Bootloader for Windows](http://www.nex-robotics.com/resources/avr-bootloader.html)
  * [X-CTU interface  for XBee](http://www.digi.com/support/kbase/kbaseresultdetl?id=2125)
+ * [Code::Blocks](http://www.codeblocks.org/)
  * [Android Studio](http://developer.android.com/sdk/index.html)
 
