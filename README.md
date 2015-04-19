@@ -38,5 +38,27 @@ Softwares Used
  * [OpenGL Utility Toolkit](https://www.opengl.org/resources/libraries/glut/)
  * [AVR Bootloader for Windows](http://www.nex-robotics.com/resources/avr-bootloader.html)
  * [X-CTU interface  for XBee](http://www.digi.com/support/kbase/kbaseresultdetl?id=2125)
+ * [Code::Blocks](http://www.codeblocks.org/)
  * [Android Studio](http://developer.android.com/sdk/index.html)
 
+Installation
+================
+
+Download this repository by running
+
+    git clone http://www.github.com/udiboy1209/Autonomous-Path-Follower
+
+Installing GLUT
+---------------
+
+Run this command
+
+    sudo apt-get install freeglut3 freeglut3-dev
+
+Then cd to the folder named `Autonomous-PathFollower/glut` and run
+
+    make
+    make clean
+    ./gl
+
+It will open the GLUT canvas
