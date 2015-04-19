@@ -33,7 +33,7 @@ We use a specific algorithm for this interpolation.
 
 Softwares Used
 ==============
-
+Download & install the following softwares from the given links:-
  * [Atmel Studio 6.0](http://www.atmel.com/microsite/atmel_studio6/)
  * [OpenGL Utility Toolkit](https://www.opengl.org/resources/libraries/glut/)
  * [AVR Bootloader for Windows](http://www.nex-robotics.com/resources/avr-bootloader.html)
@@ -62,3 +62,8 @@ Then cd to the folder named `Autonomous-PathFollower/glut` and run
     ./gl
 
 It will open the GLUT canvas
+
+Configure X-CTU:
+-------------------
+
+Refer to the youtube Video: (https://www.youtube.com/watch?v=YAwuubSJAqc)
