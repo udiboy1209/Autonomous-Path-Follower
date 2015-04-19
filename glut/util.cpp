@@ -37,8 +37,6 @@ Point circumcenter(Point A, Point B, Point C){
     float x = (modsq(A)*(B.y-C.y)+modsq(B)*(C.y-A.y)+modsq(C)*(A.y-B.y));
     float y = (modsq(A)*(C.x-B.x)+modsq(B)*(A.x-C.x)+modsq(C)*(B.x-A.x));
 
-    cout<<"D : "<<D<<", x : "<<x<<" y : "<<y<<endl;
-
     Point cc(x/D,y/D);
 
     return cc;
@@ -94,7 +92,6 @@ void addPoint(int x, int y){
                centres[i-3].
              */
 
-            cout<<"Adding arc "<<i<<endl;
 
             Point p1=path[i-2], p2=path[i-1], c=centres[i-3];
 

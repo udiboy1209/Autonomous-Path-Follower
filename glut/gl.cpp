@@ -5,53 +5,60 @@
 
 int generate; //generate decides whether points are made by clicking on the canvas or by draging the mouse on the canvas
 
-
-
 void save(){
-ofstream output_file("output.txt");
+    ofstream output_file("output.txt");
 
-if(! output_file.is_open()) return ;
+    if(! output_file.is_open()) return ;
 
-for(int i=0;i<arcs.size();i++){
-     output_file<<arcs[i].radius<<" "
-                <<arcs[i].theta<<" "
-                <<arcs[i].direction<<" "
-                <<arcs[i].centre.x<<" "
-                <<arcs[i].centre.y<<" "
-                <<arcs[i].start.x<<" "
-                <<arcs[i].start.y<<" "
-                <<"\n";
+    output_file<<arcs.size()<<endl;
 
-if(!output_file.good()) return;
+    for(int i=0;i<arcs.size();i++){
+        output_file<<int(arcs[i].radius)<<" "
+                    <<int(arcs[i].theta/arcs[i].direction)<<" "
+                    <<char(98-arcs[i].direction)
+                    <<endl;
+
+        if(!output_file.good()) return;
+    }
+
+    cout<<"Saved to output.txt"<<endl;
+
+    output_file.close();
 }
 
-output_file.close();
+void clear(){
+    centres.clear();
+    path.clear();
+    arcs.clear();
 }
+
+void menu(int num){
+    if(num == 0){
+        exit(0);
+    } else if(num==1){
+        clear();
+    } else if(num==2){
+        save();
+    }
+    glutPostRedisplay();
+} 
+
+void createMenu(void){ 
+    glutCreateMenu(menu);
+
+    glutAddMenuEntry("Clear", 1);
+    glutAddMenuEntry("Save", 2);
+    glutAddMenuEntry("Quit", 0);  
+    glutAttachMenu(GLUT_RIGHT_BUTTON);
+} 
 
 void mouseClick(int button, int state, int x, int y){
-    /*if(x>WINDOW_SIZE-100 && y > WINDOW_SIZE-50) { 
-        save();
-        return;
-
-    }*/
-
-
     //button signifies which mouse button is pressed=left , right or centre
     //state tells whether that button is pressed or not
     x-=WINDOW_SIZE;
     y=WINDOW_SIZE-y;
     //reduces the co-ordinates of the point clicked with respect to the dimensions of the GLUT canvas
     
-
-    if(button == GLUT_RIGHT_BUTTON && state==GLUT_DOWN){
-        
-         centres.clear();
-         path.clear();
-         arcs.clear();
-         
-    }
-    // on pressing the right mouse button , clear the complete canvas
-
     if(generate==CLICK && button==GLUT_LEFT_BUTTON && state==GLUT_DOWN){
         addPoint(x,y);
         //on pressing the left button and if clicking has been chosen as the option for 
@@ -84,13 +91,6 @@ void display(){
     // Set Background to white ( R,G,B) and full transparency
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glBegin(GL_QUADS);
-        glColor3f(0,0,0);
-        glVertex2f(2*((float)WINDOW_SIZE/2-100)/WINDOW_SIZE,-2*((float)WINDOW_SIZE/2-50)/WINDOW_SIZE);
-        glVertex2f(2*((float)WINDOW_SIZE/2-100)/WINDOW_SIZE,-1);
-        glVertex2f(1,-1);
-        glVertex2f(1,-2*((float)WINDOW_SIZE/2-50)/WINDOW_SIZE);
-    glEnd();
 
     //glRasterPos2f(2*(WINDOW_SIZE/2-100)/WINDOW_SIZE , 2*(WINDOW_SIZE/2-50)/WINDOW_SIZE);
     //glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_10, "SAVE");
@@ -150,6 +150,8 @@ int main(int argc, char** argv){
     //motion id detected based on the mouse drag
     glutMouseFunc(mouseClick);
     //mouse function depends on which mouse button is clicked
+    
+    createMenu();
 
     glutMainLoop();
 

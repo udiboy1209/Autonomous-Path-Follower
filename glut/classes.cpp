@@ -154,9 +154,6 @@ Arc::Arc(Point s, Point e, Point c, int dir){
     sweep=sweep/100;
     //sweep is broken into 100 parts which is then used later for plotting the arc
 
-
-    cout<<"Radius : "<<radius<<", Theta : "<<theta<<endl;
-
 }
 
 void Arc::draw(){
