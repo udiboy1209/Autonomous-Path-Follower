@@ -67,3 +67,14 @@ Configure X-CTU:
 -------------------
 
 Refer to the youtube Video: (https://www.youtube.com/watch?v=YAwuubSJAqc)
+
+Tutorial videos
+===============
+
+[Robot Live Demonstration](https://www.youtube.com/watch?v=dD4qjS22m34&feature=youtu.be)
+
+[Screencast Installation tutorial](https://www.youtube.com/watch?v=86wnkCGIsLE&feature=youtu.be)
+
+
+
+
